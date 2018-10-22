@@ -96,7 +96,7 @@ for i in range(len(X)):
 
 raz = [] # Интерполяционный полином точкаx x'(0)...x'(n)
 for i in range(len(X)):
-    raz.append(Y[i]-Nut[i])
+    raz.append(math.fabs(Y[i]-Nut[i]))
 
 table = {"x": x, "f(x)": y, "L(x)":lagr}
 df = pd.DataFrame(data=table)
