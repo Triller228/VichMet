@@ -7,60 +7,61 @@ import pandas as pd
  
 # начальные условия
 x0 = 0
-y0 = 1
-xn = 1
+y0 = 1 / float(math.exp(3))
+xn = 2
 
 
  
  
-f = lambda x, y: y * math.cos(x)
-N = 100
-for k in range(100,1000):
+f = lambda x, y: 2*x*y
+for k in range(10000):
+    flag = True
     N = 1
     N +=k
     h = (xn - x0) / float(N)
-    ilist = mlab.frange(0, 20, 1)
+    ilist = mlab.frange(0, N, 1)
     xlist = [(x0+h*i) for i in ilist]
     ylist = []
  
  
-    prev = y0
-    for x in xlist:
-        y = prev + h*f(x,y0)
-        prev = y
-        ylist.append(prev)
+
  
       
-    lst = []
+    ylist1 = []
     for x in xlist:
-        func = math.e ** math.sin(x)
-        lst.append(func)
+        func = (1 / float(math.exp(3))) * math.exp(x**2)
+        ylist1.append(func)
  
+    prev = y0
+    i=1
+    for x in xlist:
+        y = (prev) + (h*f(x,ylist1[i-1]))
+        prev = y
+        ylist.append(prev)
+        i+=1
     
     flag = True
     raz = [] 
     for i in range(len(xlist)):
-        raz.append(math.fabs(ylist[i]-lst[i]))
+        raz.append(math.fabs(ylist[i]-ylist1[i]))
         if raz[i] > 0.01:
             flag = False
             break
-    print
-   
+
     
-    if flag == True:
-         
+    if flag:
+        print (N)
         plt.rc('font',**{'family':'verdana'})
         plt.xlabel("ось абцисс")
         plt.ylabel("ось ординат")
-        plt.plot(xlist, ylist, "g-", label="метод Эйлера")
-        plt.plot(xlist, lst, "r-", label="точное решение")
+        plt.plot(xlist, ylist, "b-", label="метод Эйлера")
+        plt.plot(xlist, ylist1, "r-", label="точное решение")
         plt.legend()
         plt.grid()
         plt.show()
-        print (N)
-        table1 = {"x": xlist, "f(x)": lst, "f(x')": ylist, "raz":raz }
+        table1 = {"x": xlist, "f(x)": ylist1, "f(x')": ylist, "raz":raz }
         df1 = pd.DataFrame(data=table1)
         df1 = df1.round({"x": 5, "f(x)": 5, "f(x')":5, "raz":5})
         print('\n', df1)
         break
-            
+    
