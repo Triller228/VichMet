@@ -21,7 +21,8 @@ while i<=N:
     i+=1
 
 from math import exp
-f = lambda x: exp(-x**2)
+f = lambda x: x**3
+
 def LeftRect(f, a, b, n):
     print ("Прямоугольники: ")
     print

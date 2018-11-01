@@ -35,7 +35,7 @@ for k in range(10000):
     prev = y0
     i=1
     for x in xlist:
-        y = (prev) + (h*f(x,ylist1[i-1]))
+        y = (prev) + (h*((f(x,ylist1[i-1]))+f(x+h, prev+h*f(x,ylist1[i-1])))/2)
         prev = y
         ylist.append(prev)
         i+=1
@@ -48,13 +48,13 @@ for k in range(10000):
             flag = False
             break
 
-    if (k > 1 and k < 25) or (k>1050):
+    if (k < 25) or (k>2150):
         print (N)
         plt.rc('font',**{'family':'verdana'})
         plt.xlabel("ось абцисс")
         plt.ylabel("ось ординат")
-        plt.plot(xlist, ylist, "b-", label="метод Эйлера")
-        plt.plot(xlist, ylist1, "r-", label="точное решение")
+        plt.plot(xlist, ylist, "b-", label="точное решение")
+        plt.plot(xlist, ylist1, "r-", label="метод Рунге-Кутта")
         plt.legend()
         plt.grid()
         plt.show() 
